@@ -2,4 +2,6 @@ sudo: false
 language: ruby
 rvm:
   - 2.3.1
+before_script:
+  - "(cd test/dummy && bundle exec rake db:migrate RAILS_ENV=test)"
 before_install: gem install bundler -v 1.14.3

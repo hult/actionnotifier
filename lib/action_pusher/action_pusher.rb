@@ -18,29 +18,6 @@ module ActionPusher
       end
     end
 
-    def old_push(user_or_users, args = {})
-      c = args[:custom] || {}
-      if user_or_users.respond_to? :each
-        push_to_users(user_or_users, args[:alert], args[:badge], c)
-      else
-        push_to_user(user_or_users, args[:alert], args[:badge], c)
-      end
-    end
-
-    def old_push_to_users(users, message, badge = nil, custom = {})
-      users.each { |user| push_to_user user, message, badge, custom }
-    end
-
-    def old_push_to_user(user, message, badge = nil, custom = {})
-      user.devices.each { |device| push_to_device device, message, badge, custom }
-    end
-
-    def old_push_to_device(device, message, badge = nil, custom = {})
-      if device.push_token.present?
-        send("push_to_#{device.device_type}", device.push_token, message.squish, badge, custom)
-      end
-    end
-
     def push(app, device_token, message, custom = {})
       if app.is_a? Rpush::Apns::App
         _push = :push_to_apns
