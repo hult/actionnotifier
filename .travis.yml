@@ -3,5 +3,5 @@ language: ruby
 rvm:
   - 2.3.1
 before_script:
-  - "(cd test/dummy && rails db:migrate RAILS_ENV=test)"
+  - "(cd test/dummy && bundle exec rails db:migrate RAILS_ENV=test)"
 before_install: gem install bundler -v 1.14.3
