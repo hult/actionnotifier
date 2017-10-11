@@ -1,25 +1,25 @@
-# Action Pusher
+# Action Notifier
 
-Action Pusher is a small framework for sending push notifications in a way very
+Action Notifier is a small framework for sending push notifications in a way very
 similar to [Action Mailer](https://github.com/rails/rails/tree/master/actionmailer).
 
-## Sending pushes
+## Sending push notifications
 
-Analogous to Action Mailer, start by creating an `ApplicationPusher` in a new
-`app/pushers` directory in your Rails project.
+Analogous to Action Mailer, start by creating an `ApplicationNotifier` in a new
+`app/notifiers` directory in your Rails project.
 
 ```ruby
-class ApplicationPusher < ActionPusher::Base
-  # ActionPusher::Base has a method push(app, device_token, message, custom = {})
+class ApplicationNotifier < ActionNotifier::Base
+  # ActionNotifier::Base has a method notify(app, device_token, message, custom = {})
   # so you will probably need a method that finds the (Rpush) app and the
-  # device token (could also be several) to push to for a given user. ActionPusher
+  # device token (could also be several) to notify a given user. ActionNotifier
   # doesn't know how you store your device tokens, so you need to do the
   # translation yourself.
   #
   # The below implementation is an example where device tokens are stored in
   # a table devices(user_id, type, token) where type is the Rpush app name.
-  # In the example we push to all of a user's registered devices.
-  def push(user, message, custom = {})
+  # In the example we notify all of a user's registered devices.
+  def notify(user, message, custom = {})
     user.devices.find_each do |device|
       super(Rpush::App.find_by(name: device.type), device.token, message, custom)
     end
@@ -27,21 +27,21 @@ class ApplicationPusher < ActionPusher::Base
 end
 ```
 
-Then create pushers much as you would mailers in Action Mailer. For example,
-a social networking app may have an `app/pushers/friend_pusher.rb`:
+Then create notifiers much as you would mailers in Action Mailer. For example,
+a social networking app may have an `app/notifiers/friend_notifier.rb`:
 
 ```ruby
-class FriendPusher < ApplicationPusher
+class FriendNotifier < ApplicationNotifier
   def new_friend(user, friend)
-    push(user, "#{friend.name} added you as a friend!")
+    notify(user, "#{friend.name} added you as a friend!")
   end
 end
 ```
 
-Whenever you then want to push to the user, you do
+Whenever you then want to notify the user, you do
 
 ```ruby
-FriendPusher.new_friend(user, friend)
+FriendNotifier.new_friend(user, friend)
 ```
 
 ## Installation
@@ -49,7 +49,7 @@ FriendPusher.new_friend(user, friend)
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'actionpusher'
+gem 'actionnotifier'
 ```
 
 And then execute:
@@ -58,11 +58,11 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install actionpusher
+    $ gem install actionnotifer
 
 ## Development
 
-This section is for people who want to do development work on Action Pusher
+This section is for people who want to do development work on Action Notifier
 (highly encouraged!).
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
@@ -71,7 +71,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/hult/actionpusher.
+Bug reports and pull requests are welcome on GitHub at https://github.com/hult/actionnotifier.
 
 
 ## License

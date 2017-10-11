@@ -1,6 +1,6 @@
 require "abstract_controller"
 
-module ActionPusher
+module ActionNotifier
   class Base < AbstractController::Base
 
     class << self
@@ -18,19 +18,19 @@ module ActionPusher
       end
     end
 
-    def push(app, device_token, message, custom = {})
+    def notify(app, device_token, message, custom = {})
       if app.is_a? Rpush::Apns::App
-        _push = :push_to_apns
+        _notify = :notify_apns
       elsif app.is_a? Rpush::Gcm::App
-        _push = :push_to_gcm
+        _notify = :notify_gcm
       else
         raise ArgumentError, "Unsupported app"
       end
 
-      return send _push, app, device_token, message, custom
+      return send _notify, app, device_token, message, custom
     end
 
-    def push_to_apns(app, device_token, message, custom = {})
+    def notify_apns(app, device_token, message, custom = {})
       n = Rpush::Apns::Notification.new
       n.app = app
       n.device_token = device_token
@@ -44,7 +44,7 @@ module ActionPusher
       return n
     end
 
-    def push_to_gcm(device_token, message, custom = {})
+    def notify_gcm(device_token, message, custom = {})
       n = Rpush::Gcm::Notification.new
       n.app = Rpush::Gcm::App.find_by_name("android")
       n.registration_ids = [device_token]
