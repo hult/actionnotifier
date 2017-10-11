@@ -1,16 +1,16 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'action_pusher/version'
+require 'action_notifier/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "actionpusher"
-  spec.version       = ActionPusher::VERSION
+  spec.name          = "actionnotifier"
+  spec.version       = ActionNotifier::VERSION
   spec.authors       = ["Magnus Hult"]
   spec.email         = ["magnus@magnushult.se"]
 
   spec.summary       = %q{Bla bla bla}
-  spec.homepage      = "https://github.com/hult/actionpusher"
+  spec.homepage      = "https://github.com/hult/actionnotifier"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
