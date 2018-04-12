@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Magnus Hult"]
   spec.email         = ["magnus@magnushult.se"]
 
-  spec.summary       = %q{Bla bla bla}
+  spec.summary       = "Action Notifier is a small framework for sending push notifications in a way very similar to Action Mailer"
   spec.homepage      = "https://github.com/hult/actionnotifier"
   spec.license       = "MIT"
 
